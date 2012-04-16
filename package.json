@@ -1,5 +1,12 @@
 {
-  "name":"waldo",
-  "node":"0.6.12",
-  "author":"marocchino"
+  "name": "waldos",
+  "description": "An awesome real time application",
+  "version": "0.0.1",
+  "author": "Me <me@mydomain.com>",
+  "private": true,
+  "engines": { "node": ">= 0.6.0" },
+  "dependencies": {
+    "ss-stylus": "0.1.x",
+    "ss-hogan": "0.1.x"
+  }
 }
