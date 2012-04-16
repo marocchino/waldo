@@ -1,7 +1,7 @@
 {
   "name": "waldo",
-  "description": "An awesome real time application",
-  "node":"0.6.12",
+  "description": "markdown transrattion application",
+  "node":"0.6.15",
   "author":"marocchino",
   "version": "0.0.1",
   "private": true,
