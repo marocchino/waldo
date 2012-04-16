@@ -16,6 +16,8 @@ ss.http.route('/', function(req, res){
   res.serveClient('main');
 })
 
+ss.client.formatters.add(require('ss-coffee'));
+
 // Code Formatters
 ss.client.formatters.add(require('ss-stylus'));
 
