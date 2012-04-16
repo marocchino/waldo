@@ -1,8 +1,9 @@
 {
-  "name": "waldos",
+  "name": "waldo",
   "description": "An awesome real time application",
+  "node":"0.6.12",
+  "author":"marocchino",
   "version": "0.0.1",
-  "author": "Me <me@mydomain.com>",
   "private": true,
   "engines": { "node": ">= 0.6.0" },
   "dependencies": {
