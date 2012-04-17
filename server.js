@@ -5,7 +5,7 @@ var http = require('http')
 
 // Define a single-page client
 ss.client.define('main', {
-  view: 'app.html',
+  view: 'app.jade',
   css:  ['libs', 'app.styl'],
   code: ['libs', 'app'],
   tmpl: '*'
@@ -16,9 +16,9 @@ ss.http.route('/', function(req, res){
   res.serveClient('main');
 })
 
-ss.client.formatters.add(require('ss-coffee'));
-
 // Code Formatters
+ss.client.formatters.add(require('ss-coffee'));
+ss.client.formatters.add(require('ss-jade'));
 ss.client.formatters.add(require('ss-stylus'));
 
 // Use server-side compiled Hogan (Mustache) templates. Others engines available
@@ -30,6 +30,12 @@ if (ss.env == 'production') ss.client.packAssets();
 // Start web server
 var server = http.Server(ss.http.middleware);
 server.listen(3000);
+
+// Start Console Server (REPL)
+// To install client: sudo npm install -g ss-console
+// To connect: ss-console <optional_host_or_port>
+var consoleServer = require('ss-console').init(ss);
+consoleServer.listen(5000);
 
 // Start SocketStream
 ss.start(server);
