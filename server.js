@@ -1,7 +1,8 @@
 // My SocketStream app
 
 var http = require('http')
-  , ss = require('socketstream');
+  , ss = require('socketstream')
+  , everyauth = require('everyauth');
 
 // Define a single-page client
 ss.client.define('main', {
@@ -27,6 +28,7 @@ ss.client.templateEngine.use(require('ss-hogan'));
 // Minimize and pack assets if you type: SS_ENV=production node app.js
 if (ss.env == 'production') ss.client.packAssets();
 
+ss.http.middleware.append(everyauth.middleware());
 // Start web server
 var server = http.Server(ss.http.middleware);
 server.listen(3000);
