@@ -5,13 +5,22 @@ html(lang="en")
     meta(charset="utf-8")
     title Welcome
   body
-    #content
-      a(href='https://github.com/socketstream/socketstream')
-      h1 Welcome to your new realtime app!
-
-      // QUICK CHAT DEMO
-      form#demo(onsubmit='return false')
-        h3 Quick Chat Demo
-        h5 Open this page in multiple tabs or browsers and type a message below
-        #chatlog
-        input(id='myMessage', type='text', autocomplete='off')
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          a.brand(href="#")
+            | Waldo
+    #content.container
+      .row
+        .span12
+          h1 안녕하신가! 힘세고 강한 아침, 만일 내게 물어보면 나는 왈도.
+          form#post(onsubmit='return false')
+            h3 내게 변압할 문서의 url을 달라
+            #postList
+            input(id='url', type='text', autocomplete='off')
+          // QUICK CHAT DEMO
+          form#demo(onsubmit='return false')
+            h3 Quick Chat Demo
+            h5 Open this page in multiple tabs or browsers and type a message below
+            #chatlog
+            input(id='myMessage', type='text', autocomplete='off')
