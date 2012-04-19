@@ -28,7 +28,27 @@ ss.client.templateEngine.use(require('ss-hogan'));
 // Minimize and pack assets if you type: SS_ENV=production node app.js
 if (ss.env == 'production') ss.client.packAssets();
 
+everyauth.facebook
+  .appId(process.env.FACEBOOK_APP_ID)
+  .appSecret(process.env.FACEBOOK_APP_SECRET)
+  .scope('email')
+  .findOrCreateUser(function(session, accessToken, accessTokExtra, fbUserMetadata){
+    session.userId = fbUserMetadata.id;
+    session.name = fbUserMetadata.name;
+    session.save();
+    return true;
+  }).redirectPath('/');
+everyauth.facebook.moduleErrback( function (err) {  // Time Out etc...
+    res.serve('login');
+});
+everyauth.everymodule.handleLogout( function (req, res) { // Logout
+  req.logout();
+  delete req.session.userId;
+  delete req.session.name;
+  res.redirect('/');
+});
 ss.http.middleware.append(everyauth.middleware());
+
 // Start web server
 var server = http.Server(ss.http.middleware);
 server.listen(3000);
