@@ -3,3 +3,6 @@
 node_modules/
 control.log
 .DS_Store
+client/static/assets/
+logs/
+pids/
