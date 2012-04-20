@@ -1,4 +1,5 @@
 .nodester.appconfig
 *.sw*
 node_modules/
+control.log
 .DS_Store
