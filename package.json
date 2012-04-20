@@ -7,6 +7,7 @@
   "private": true,
   "engines": { "node": ">= 0.6.0" },
   "dependencies": {
+    "mongoose": "2.x.x",
     "everyauth": "0.2.x",
     "ss-coffee": "0.1.x",
     "ss-jade": "0.1.x",
