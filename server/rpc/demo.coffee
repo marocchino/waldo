@@ -11,17 +11,12 @@ exports.actions = (req, res, ss) ->
   #req.use('example.authenticated')
 
   sendMessage: (message) ->
-    if req.session? and req.session.userId?
-      User.findOne {userId: req.session.userId}, (error, user) ->
-        name = if user?.name
-            user.name
-          else
-            "Guest"
-        if message && message.length > 0            # Check for blank messages
-          ss.publish.all('newMessage', name, message)     # Broadcast the message to everyone
-          res(true)                                 # Confirm it was sent to the originating client
-        else
-          res(false)
-    else
-      ss.publish.all('newMessage', "Guest", message)     # Broadcast the message to everyone
+    name = if req.session? and req.session.name?
+        req.session.name
+      else
+        "Guest"
+    if message && message.length > 0            # Check for blank messages
+      ss.publish.all('newMessage', name, message)     # Broadcast the message to everyone
       res(true)                                 # Confirm it was sent to the originating client
+    else
+      res(false)
