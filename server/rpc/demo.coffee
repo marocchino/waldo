@@ -5,13 +5,23 @@ exports.actions = (req, res, ss) ->
 
   # Example of pre-loading sessions into req.session using internal middleware
   req.use('session')
+  User = require('./models/user').User  # See codes below: /server/rpc/models/user.coffee
 
   # Uncomment line below to use the middleware defined in server/middleware/example
   #req.use('example.authenticated')
 
   sendMessage: (message) ->
-    if message && message.length > 0            # Check for blank messages
-      ss.publish.all('newMessage', message)     # Broadcast the message to everyone
-      res(true)                                 # Confirm it was sent to the originating client
+    if req.session? and req.session.userId?
+      User.findOne {userId: req.session.userId}, (error, user) ->
+        name = if user?.name
+            user.name
+          else
+            "Guest"
+        if message && message.length > 0            # Check for blank messages
+          ss.publish.all('newMessage', name, message)     # Broadcast the message to everyone
+          res(true)                                 # Confirm it was sent to the originating client
+        else
+          res(false)
     else
-      res(false)
+      ss.publish.all('newMessage', "Guest", message)     # Broadcast the message to everyone
+      res(true)                                 # Confirm it was sent to the originating client
