@@ -15,5 +15,5 @@ ss.server.on 'ready', ->
   jQuery ->
 
     # Load app
-    require('/app')
     require('/user')
+    require('/app')

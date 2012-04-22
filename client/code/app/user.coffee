@@ -3,6 +3,7 @@ exports.current= (cb) ->
 
 exports.current (user) ->
   html = if user
+      ss.user = user
       ss.tmpl['user-nametag'].render
         name: user.name
     else
