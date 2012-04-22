@@ -38,14 +38,14 @@ everyauth.facebook
     session.save();
     return true;
   }).redirectPath('/');
-everyauth.facebook.moduleErrback( function (err) {  // Time Out etc...
-    res.serve('login');
+everyauth.everymodule.moduleErrback( function (err) {  // Time Out etc...
+  console.log(err);
 });
 everyauth.everymodule.handleLogout( function (req, res) { // Logout
   req.logout();
   delete req.session.userId;
   delete req.session.name;
-  res.redirect('/');
+  this.redirect(res,'/');
 });
 ss.http.middleware.append(everyauth.middleware());
 
