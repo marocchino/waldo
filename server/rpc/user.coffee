@@ -16,8 +16,8 @@ exports.actions = (req, res, ss) ->
               unless error?
                 res @user
               else
-                res req.session
+                res false
         else
           res error
     else
-      res req.session
+      res false
