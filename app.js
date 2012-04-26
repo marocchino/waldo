@@ -28,6 +28,8 @@ ss.client.templateEngine.use(require('ss-hogan'));
 // Minimize and pack assets if you type: SS_ENV=production node app.js
 if (ss.env == 'production') ss.client.packAssets();
 
+ss.session.store.use("redis");
+
 everyauth.facebook
   .appId(process.env.FACEBOOK_APP_ID)
   .appSecret(process.env.FACEBOOK_APP_SECRET)

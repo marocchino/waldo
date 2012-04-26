@@ -8,6 +8,7 @@
   "engines": { "node": ">= 0.6.0" },
   "dependencies": {
     "mongoose": "2.x.x",
+    "connect-redis": "1.x.x",
     "everyauth": "0.2.x",
     "ss-coffee": "0.1.x",
     "ss-jade": "0.1.x",
