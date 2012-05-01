@@ -10,8 +10,10 @@ exports.actions = (req, res, ss) ->
             res user
           else
             @user = new User()
-            @user.userId = req.session.userId
-            @user.name = req.session.name
+            @user.userId  = req.session.userId
+            @user.name    = req.session.name
+            @user.email   = req.session.email
+            @user.picture = req.session.picture
             @user.save (error) =>
               unless error?
                 res @user
@@ -21,3 +23,5 @@ exports.actions = (req, res, ss) ->
           res error
     else
       res false
+  sessionInspect: ->
+    res req.session

@@ -35,8 +35,10 @@ everyauth.facebook
   .appSecret(process.env.FACEBOOK_APP_SECRET)
   .scope('email')
   .findOrCreateUser(function(session, accessToken, accessTokExtra, fbUserMetadata){
-    session.userId = fbUserMetadata.id;
-    session.name = fbUserMetadata.name;
+    session.userId  = fbUserMetadata.id;
+    session.name    = fbUserMetadata.name;
+    session.email   = fbUserMetadata.email;
+    session.picture = fbUserMetadata.picture;
     session.save();
     return true;
   }).redirectPath('/');
@@ -46,7 +48,9 @@ everyauth.everymodule.moduleErrback( function (err) {  // Time Out etc...
 everyauth.everymodule.handleLogout( function (req, res) { // Logout
   req.logout();
   delete req.session.userId;
+  delete req.session.email;
   delete req.session.name;
+  delete req.session.picture;
   this.redirect(res,'/');
 });
 ss.http.middleware.append(everyauth.middleware());
@@ -58,8 +62,8 @@ server.listen(3000);
 // Start Console Server (REPL)
 // To install client: sudo npm install -g ss-console
 // To connect: ss-console <optional_host_or_port>
-var consoleServer = require('ss-console')(ss);
-consoleServer.listen(5000);
+//var consoleServer = require('ss-console')(ss);
+//consoleServer.listen(5000);
 
 // Start SocketStream
 ss.start(server);
