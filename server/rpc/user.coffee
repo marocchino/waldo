@@ -23,5 +23,3 @@ exports.actions = (req, res, ss) ->
           res error
     else
       res false
-  sessionInspect: ->
-    res req.session
