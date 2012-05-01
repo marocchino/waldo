@@ -1,25 +1,29 @@
 mongoose = require 'mongoose'
 
 Schema = mongoose.Schema
+
 Comments = new Schema
   userId: String
-  createdAt: {type: Date, default: Date.now}
+  text:   String
+  createdAt: {type: Date,   default: Date.now}
+
 Translations = new Schema
-  local:  String
   userId: String
-  createdAt: {type: Date, default: Date.now}
+  text:   String
+  local:     {type: String, default: "ko_KR"}
+  createdAt: {type: Date,   default: Date.now}
+
 Lines  = new Schema
   orignal:      String
   comments:     [Comments]
   translations: [Translations]
 
 Posts  = new Schema
-  url:    String
-  userId: String
-  text:   String
-  locals: String
-  lines:  [Lines]
-  createdAt: {type: Date, default: Date.now}
+  url:       {type: String, index: true, unique: true}
+  userId:    {type: String, index: true}
+  lines:     [Lines]
+  local:     {type: String, default: "en_US"}
+  createdAt: {type: Date,   default: Date.now}
 
 mongoose.model 'Post', Posts
 mongoose.connect "mongodb://#{ process.env.MONGODB_ID }:#{ process.env.MONGODB_PASSWORD }@localhost/waldo"
