@@ -4,7 +4,7 @@ Post = require('./models/post').Post
 exports.actions = (req, res, ss) ->
   req.use('session')
   index: (conditions = {}) ->
-    Post.find conditions, (err, posts) ->
+    Post.find conditions, ["_id", "url"], (err, posts) ->
       if not err
         res posts
       else
@@ -12,7 +12,14 @@ exports.actions = (req, res, ss) ->
   show: (id) ->
     Post.findById id, (err, post) ->
       if not err
-        res posts
+        res post
+      else
+        res false
+  remove: (id) ->
+    Post.remove _id: id, (err) =>
+      if not err
+        ss.publish.all('removePost', id)     # Broadcast the message to everyone
+        res true
       else
         res false
   create: (urlStr) ->
@@ -24,10 +31,11 @@ exports.actions = (req, res, ss) ->
         @post.url = urlStr
         for line in "#{data}".split /\n/
           @post.lines.push
-            orignal: line
+            original: line
         @post.userId = req.session.userId
-        @post.save (err) ->
+        @post.save (err) =>
           if not err
+            ss.publish.all('newPost', @post)     # Broadcast the message to everyone
             res true
           else
             res false

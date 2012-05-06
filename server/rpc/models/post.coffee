@@ -14,7 +14,7 @@ Translations = new Schema
   createdAt: {type: Date,   default: Date.now}
 
 Lines  = new Schema
-  orignal:      String
+  original:      String
   comments:     [Comments]
   translations: [Translations]
 
