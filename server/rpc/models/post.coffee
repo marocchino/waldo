@@ -9,7 +9,7 @@ Comments = new Schema
 
 Translations = new Schema
   userId: String
-  text:   String
+  text:      {type: String, unique: true}
   local:     {type: String, default: "ko_KR"}
   createdAt: {type: Date,   default: Date.now}
 
