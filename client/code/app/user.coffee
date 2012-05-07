@@ -4,8 +4,7 @@ exports.current= (cb) ->
 exports.current (user) ->
   html = if user
       ss.user = user
-      ss.tmpl['user-nametag'].render
-        name: user.name
+      ss.tmpl['user-nametag'].render user
     else
       ss.tmpl['user-login'].render()
   $(html).appendTo("#login")

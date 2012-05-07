@@ -7,8 +7,12 @@ exports.remove = (id, cb)  -> ss.rpc('post.remove', id, cb)
 ss.event.on 'newPost', (post) ->
   post.date = post.createdAt.slice(2,10)
   $('#posts').append ss.tmpl['post-index'].render post
+
 ss.event.on 'removePost', (id) ->
   $("##{id}").remove()
+
+ss.event.on 'newTranslation', (line_id, translation) ->
+  $("#post ##{line_id}").append ss.tmpl['post-translation'].render translation
 
 exports.index (posts) ->
   if posts
@@ -31,6 +35,10 @@ show = ->
         i += 1
         line["i"] = i
         $('#post tbody').append ss.tmpl['post-original'].render line
+        for translation in line.translations
+          console.log "#post ##{line._id}"
+          $("#post ##{line._id}").append ss.tmpl['post-translation'].render translation
+
   else
     $("#post").hide()
 show()
