@@ -3,7 +3,7 @@ html(lang="en")
   head
     != SocketStream
     meta(charset="utf-8")
-    title Waldo - markdown transrate app
+    title Waldo - markdown translate app
   body
     .navbar.navbar-fixed-top
       .navbar-inner
@@ -15,11 +15,27 @@ html(lang="en")
     #content.container-fluid
       .row-fluid
         .span8
-          table#post.table-striped.table
-            tbody
           .hero-unit
             h1 Waldo
             p simple markdown translation app
+          #title
+          table#post.table-striped.table
+            thead
+              tr
+                th
+                th.form-inline.pull-right
+                  label
+                    | translate from
+                    button.btn.btn-small.dropdown-toggle
+                      | english
+                      span.caret
+                  &nbsp;
+                  label
+                    | to
+                    button.btn.btn-small.dropdown-toggle
+                      | korean
+                      span.caret
+            tbody
         .span4
           form#newPost(onsubmit='return false')
             ul#posts.nav.nav-list.well

@@ -4,7 +4,7 @@ Post = require('./models/post').Post
 exports.actions = (req, res, ss) ->
   req.use('session')
   index: (conditions = {}) ->
-    Post.find conditions, ["_id", "url"], (err, posts) ->
+    Post.find conditions, ["_id", "title", "createdAt"], (err, posts) ->
       if not err
         res posts
       else
@@ -29,6 +29,8 @@ exports.actions = (req, res, ss) ->
         @post = new Post()
         @post.url = urlStr
         for line in "#{data}".split /\n/
+          if @post.lines.length == 0
+            @post.title = line.replace(/^#+\s*/,"")
           @post.lines.push
             original: line
         @post.userId = req.session.userId

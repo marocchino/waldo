@@ -24,6 +24,7 @@ Posts  = new Schema
   lines:     [Lines]
   local:     {type: String, default: "en_US"}
   createdAt: {type: Date,   default: Date.now}
+  title:     {type: String}
 
 mongoose.model 'Post', Posts
 mongoose.connect "mongodb://#{ process.env.MONGODB_ID }:#{ process.env.MONGODB_PASSWORD }@localhost/waldo"

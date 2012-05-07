@@ -5,6 +5,7 @@ exports.create = (url, cb) -> ss.rpc('post.create', url, cb)
 exports.remove = (id, cb)  -> ss.rpc('post.remove', id, cb)
 
 ss.event.on 'newPost', (post) ->
+  post.date = post.createdAt.slice(2,10)
   $('#posts').append ss.tmpl['post-index'].render post
 ss.event.on 'removePost', (id) ->
   $("##{id}").remove()
@@ -12,6 +13,7 @@ ss.event.on 'removePost', (id) ->
 exports.index (posts) ->
   if posts
     for post in posts
+      post.date = post.createdAt.slice(2,10)
       $('#posts').append ss.tmpl['post-index'].render post
 
 show = ->
@@ -21,12 +23,13 @@ show = ->
     id = anchor.split("#post/")[1]
     exports.show id, (post) ->
       $('.hero-unit').hide()
+      post.date = post.createdAt.slice(2,10)
+      $('#title').html ss.tmpl['post-title'].render post
       $('#post tbody').html("")
       i = 0
       for line in post.lines
         i += 1
         line["i"] = i
-        console.log line
         $('#post tbody').append ss.tmpl['post-original'].render line
   else
     $("#post").hide()
