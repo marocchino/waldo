@@ -29,6 +29,7 @@ ss.client.templateEngine.use(require('ss-hogan'));
 if (ss.env == 'production') ss.client.packAssets();
 
 ss.session.store.use("redis");
+ss.publish.transport.use('redis');
 
 everyauth.facebook
   .appId(process.env.FACEBOOK_APP_ID)
