@@ -23,7 +23,6 @@ exports.actions = (req, res, ss) ->
       else
         res false
   create: (urlStr) ->
-    console.log "post.create"
     options = url.parse urlStr
     request = https.get options, (response) ->
       response.on 'data', (data) ->

@@ -15,18 +15,24 @@ exports.index (posts) ->
     for post in posts
       $('#posts').append ss.tmpl['post-index'].render post
 
-anchor = location.hash
-if anchor.match /#post_/
-  id = anchor.split("#post_")[1]
-  console.log id
-  exports.show id, (post) ->
-    for line in post.lines
-      console.log line.original
+show = ->
+  anchor = location.hash
+  if anchor.match /#post_/
+    id = anchor.split("#post_")[1]
+    console.log id
+    exports.show id, (post) ->
+      $('#post').html("")
+      for line in post.lines
+        $('#post').append ss.tmpl['post-original'].render line
+show()
+
+$(window).bind 'hashchange', show
 
 $("#posts .remove").live "click", ->
-  id = $(this).parent()[0].id
+  id = $(this).parent().parent()[0].id
   exports.remove id, (success) ->
     if success
+      location.hash = ""
       alert('removed!')
     else
       alert('failed!')

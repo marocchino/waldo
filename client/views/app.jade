@@ -12,13 +12,16 @@ html(lang="en")
             | Waldo
             code beta
           ul#login.nav.pull-right
-    #content.container
-      .row
-        .span12
-          h3 번역중인 글들
-          #posts
+    #content.container-fluid
+      .row-fluid
+        .span8#post
+          .hero-unit
+            h1 Waldo
+            p simple markdown translation app
+        .span4
           form#newPost(onsubmit='return false')
-            input(id='url', type='text', autocomplete='off')
-      .row
-        .span12
-          #post
+            ul#posts.nav.nav-list.well
+              li.nav-header url을 넣어서 새로시작
+              li
+                input(id='url', type='text', autocomplete='off')
+              li.nav-header 번역중인 글들
