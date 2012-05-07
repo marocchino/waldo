@@ -7,7 +7,6 @@ exports.remove = (id, cb)  -> ss.rpc('post.remove', id, cb)
 ss.event.on 'newPost', (post) ->
   $('#posts').append ss.tmpl['post-index'].render post
 ss.event.on 'removePost', (id) ->
-  console.log "##{id}"
   $("##{id}").remove()
 
 exports.index (posts) ->
@@ -17,13 +16,20 @@ exports.index (posts) ->
 
 show = ->
   anchor = location.hash
-  if anchor.match /#post_/
-    id = anchor.split("#post_")[1]
-    console.log id
+  if anchor.match /#post\//
+    $("#post").show()
+    id = anchor.split("#post/")[1]
     exports.show id, (post) ->
-      $('#post').html("")
+      $('.hero-unit').hide()
+      $('#post tbody').html("")
+      i = 0
       for line in post.lines
-        $('#post').append ss.tmpl['post-original'].render line
+        i += 1
+        line["i"] = i
+        console.log line
+        $('#post tbody').append ss.tmpl['post-original'].render line
+  else
+    $("#post").hide()
 show()
 
 $(window).bind 'hashchange', show
