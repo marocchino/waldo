@@ -36,7 +36,6 @@ show = ->
         line["i"] = i
         $('#post tbody').append ss.tmpl['post-original'].render line
         for translation in line.translations
-          console.log "#post ##{line._id}"
           $("#post ##{line._id}").append ss.tmpl['post-translation'].render translation
 
   else
