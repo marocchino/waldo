@@ -24,12 +24,12 @@ task 'update_dependencies', 'upgrade socketstream', (controller) ->
   controller.ssh 'cd downloads/socketstream/ && git pull origin master && npm link', ->
 
 task 'restart', 'restart the application', (controller) ->
-  controller.ssh 'cd ~/projects/waldo/ && /etc/init.d/waldo restart'
+  controller.ssh 'supervisorctl restart waldo'
 
 task 'stop', 'stop the application', (controller) ->
-  controller.ssh 'cd ~/projects/waldo/ && /etc/init.d/waldo stop'
+  controller.ssh 'supervisorctl stop waldo'
 
 task 'start', 'stop the application', (controller) ->
-  controller.ssh 'cd ~/projects/waldo/ && /etc/init.d/waldo start'
+  controller.ssh 'supervisorctl start waldo'
 
 control.begin()
