@@ -8,7 +8,7 @@ Comments = new Schema
   createdAt: {type: Date,   default: Date.now}
 
 Translations = new Schema
-  userId: String
+  userId:    String
   text:      String
   local:     {type: String, default: "ko_KR"}
   createdAt: {type: Date,   default: Date.now}

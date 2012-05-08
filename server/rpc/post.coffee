@@ -3,25 +3,26 @@ url  = require 'url'
 Post = require('./models/post').Post
 exports.actions = (req, res, ss) ->
   req.use('session')
+  #req.use('user.authenticated')
   index: (conditions = {}) ->
     Post.find conditions, ["_id", "title", "createdAt"], (err, posts) ->
       if not err
-        res posts
+        res [true, posts]
       else
-        res false
+        res [false, err]
   show: (id) ->
     Post.findById id, (err, post) ->
       if not err
-        res post
+        res [true, post]
       else
-        res false
+        res [false, err]
   remove: (id) ->
     Post.remove _id: id, (err) =>
       if not err
         ss.publish.all('removePost', id)     # Broadcast the message to everyone
-        res true
+        res [true, "successfully removed"]
       else
-        res false
+        res [false, err]
   create: (urlStr) ->
     options = url.parse urlStr
     request = https.get options, (response) ->
@@ -37,9 +38,8 @@ exports.actions = (req, res, ss) ->
         @post.save (err) =>
           if not err
             ss.publish.all('newPost', @post)     # Broadcast the message to everyone
-            res true
+            res [true, "successfully created"]
           else
-            res false
+            res [false, err.err]
     request.on 'error', (e) ->
-      console.log "error : #{e}"
-      res false
+      res [false, e]

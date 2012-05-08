@@ -1,4 +1,3 @@
-
 exports.index  = (cb)      -> ss.rpc('post.index', cb)
 exports.show   = (id, cb)  -> ss.rpc('post.show', id, cb)
 exports.create = (url, cb) -> ss.rpc('post.create', url, cb)
@@ -13,30 +12,40 @@ ss.event.on 'removePost', (id) ->
 
 ss.event.on 'newTranslation', (line_id, translation) ->
   $("#post ##{line_id}").append ss.tmpl['post-translation'].render translation
+ss.event.on 'removeTranslation', (id) ->
+  $("##{id}").remove()
 
-exports.index (posts) ->
-  if posts
+exports.index (res) ->
+  status = res[0]
+  if status
+    posts = res[1]
     for post in posts
       post.date = post.createdAt.slice(2,10)
       $('#posts').append ss.tmpl['post-index'].render post
+  else
+    error = res[1]
+    console.log error
 
 show = ->
   anchor = location.hash
   if anchor.match /#post\//
     $("#post").show()
     id = anchor.split("#post/")[1]
-    exports.show id, (post) ->
-      $('.hero-unit').hide()
-      post.date = post.createdAt.slice(2,10)
-      $('#title').html ss.tmpl['post-title'].render post
-      $('#post tbody').html("")
-      i = 0
-      for line in post.lines
-        i += 1
-        line["i"] = i
-        $('#post tbody').append ss.tmpl['post-original'].render line
-        for translation in line.translations
-          $("#post ##{line._id}").append ss.tmpl['post-translation'].render translation
+    exports.show id, (res) ->
+      [success, post] = res
+      if success
+        $('.hero-unit').hide()
+        console.log post
+        post.date = post.createdAt?.slice(2,10)
+        $('#title').html ss.tmpl['post-title'].render post
+        $('#post tbody').html("")
+        i = 0
+        for line in post.lines
+          i += 1
+          line["i"] = i
+          $('#post tbody').append ss.tmpl['post-original'].render line
+          for translation in line.translations
+            $("#post ##{line._id}").append ss.tmpl['post-translation'].render translation
 
   else
     $("#post").hide()
@@ -46,15 +55,18 @@ $(window).bind 'hashchange', show
 
 $("#posts .remove").live "click", ->
   id = $(this).parent().parent()[0].id
-  exports.remove id, (success) ->
+  exports.remove id, (res) ->
+    [ success, message ] = res
     if success
       location.hash = ""
-      alert('removed!')
-    else
-      alert('failed!')
+    console.log message
+    alert(message)
+
 $('#newPost').on 'submit', ->
   url = $('#url').val()
-  exports.create url, (success) ->
-    unless success
-      alert('failed!')
-    $('#url').val('') # clear text box
+  exports.create url, (res) ->
+    [ success, message ] = res
+    if success
+      $('#url').val('') # clear text box
+    console.log message
+    alert(message)
