@@ -1,7 +1,11 @@
-tr
-  td
+tr(id="{{_id}}")
+  td(rowspan="2")
     strong {{i}}
-  td(id="{{_id}}")
+  td
    p.original {{original}}
   td
     span.badge {{comments.length}}
+tr
+  td
+    input
+  td
