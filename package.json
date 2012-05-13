@@ -1,19 +1,19 @@
 {
   "name": "waldo",
-  "description": "markdown transrattion application",
+  "description": "markdown translation application",
   "node":"0.6.15",
   "author":"marocchino",
   "version": "0.0.1",
   "private": true,
   "engines": { "node": ">= 0.6.0" },
   "dependencies": {
-    "mongoose": "2.x.x",
-    "connect-redis": "1.x.x",
-    "everyauth": "0.2.x",
-    "ss-coffee": "0.1.x",
-    "ss-jade": "0.1.x",
-    "ss-stylus": "0.1.x",
-    "ss-hogan": "0.1.x",
-    "ss-console": "0.1.x"
+    "mongoose":      "x.x.x",
+    "connect-redis": "x.x.x",
+    "everyauth":     "x.x.x",
+    "ss-coffee":     "x.x.x",
+    "ss-jade":       "x.x.x",
+    "ss-less":       "x.x.x",
+    "ss-hogan":      "x.x.x",
+    "ss-console":    "x.x.x"
   }
 }

@@ -18,7 +18,7 @@ exports.actions = (req, res, ss) ->
         res false
   create: (post_id,line_id, text) ->
     Post.findById post_id, (err, post) ->
-      if not err
+      if not err and post?
         line = post.lines.id line_id
         if line?
           translation =
@@ -28,10 +28,10 @@ exports.actions = (req, res, ss) ->
           post.save (err) ->
             if not err
               ss.publish.all('newTranslation', line_id, translation)
-              res true
+              res [true, null]
             else
-              res false
+              res [false, "cant create translation"]
         else
-          res false
+          res [false, "cant find line"]
       else
-        res false
+        res [false, err ? "cant find post"]

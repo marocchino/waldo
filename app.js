@@ -7,7 +7,7 @@ var http = require('http')
 // Define a single-page client
 ss.client.define('main', {
   view: 'app.jade',
-  css:  ['libs', 'app.styl'],
+  css:  ['libs', 'app.less'],
   code: ['libs', 'app'],
   tmpl: '*'
 });
@@ -20,7 +20,7 @@ ss.http.route('/', function(req, res){
 // Code Formatters
 ss.client.formatters.add(require('ss-coffee'));
 ss.client.formatters.add(require('ss-jade'));
-ss.client.formatters.add(require('ss-stylus'));
+ss.client.formatters.add(require('ss-less'));
 
 // Use server-side compiled Hogan (Mustache) templates. Others engines available
 ss.client.templateEngine.use(require('ss-hogan'));

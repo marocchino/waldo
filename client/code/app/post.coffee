@@ -2,6 +2,9 @@ exports.index  = (cb)      -> ss.rpc('post.index', cb)
 exports.show   = (id, cb)  -> ss.rpc('post.show', id, cb)
 exports.create = (url, cb) -> ss.rpc('post.create', url, cb)
 exports.remove = (id, cb)  -> ss.rpc('post.remove', id, cb)
+exports.line =
+  translation :
+    create : (post_id, line_id, text, cb) -> ss.rpc('post.line.translation.create', post_id, line_id, text, cb)
 
 ss.event.on 'newPost', (post) ->
   post.date = post.createdAt.slice(2,10)
@@ -11,7 +14,7 @@ ss.event.on 'removePost', (id) ->
   $("##{id}").remove()
 
 ss.event.on 'newTranslation', (line_id, translation) ->
-  $("#post ##{line_id}").append ss.tmpl['post-translation'].render translation
+  $("#post ##{line_id} .original").append ss.tmpl['post-translation'].render translation
 ss.event.on 'removeTranslation', (id) ->
   $("##{id}").remove()
 
@@ -35,7 +38,7 @@ show = ->
       [success, post] = res
       if success
         $('.hero-unit').hide()
-        console.log post
+        ss.post_id = post._id
         post.date = post.createdAt?.slice(2,10)
         $('#title').html ss.tmpl['post-title'].render post
         $('#post tbody').html("")
@@ -43,15 +46,27 @@ show = ->
         for line in post.lines
           i += 1
           line["i"] = i
-          $('#post tbody').append ss.tmpl['post-original'].render line
+          $('#post').append ss.tmpl['post-original'].render line
           for translation in line.translations
-            $("#post ##{line._id}").append ss.tmpl['post-translation'].render translation
+            $("#post ##{line._id} .original").append ss.tmpl['post-translation'].render translation
 
   else
     $("#post").hide()
 show()
 
 $(window).bind 'hashchange', show
+
+$("#post form").live "submit", ->
+  line_id = $(this).parents("tbody").attr("id")
+  input = $(this).find("input")
+  exports.line.translation.create ss.post_id, line_id, input.val(), (res) ->
+    [ success, message ] = res
+    if success
+      input.val("")
+      input.parents("tbody").next().find("input").focus()
+      false
+    else
+      alert(message)
 
 $("#posts .remove").live "click", ->
   id = $(this).parent().parent()[0].id
