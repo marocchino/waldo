@@ -1,5 +1,5 @@
 Waldo
 ======
 
-Transration Application
+Translation Application
  -
