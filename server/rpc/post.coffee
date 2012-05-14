@@ -16,6 +16,14 @@ exports.actions = (req, res, ss) ->
         res [true, post]
       else
         res [false, err]
+  preview: (id) ->
+    Post.findById id, (err, post) ->
+      if not err
+        md = require('markdown').markdown
+        preview = (line.original for line in post.lines).join "\n"
+        res [true, md.toHTML preview]
+      else
+        res [false, err]
   remove: (id) ->
     Post.remove _id: id, (err) =>
       if not err

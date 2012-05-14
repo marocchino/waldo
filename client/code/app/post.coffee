@@ -1,7 +1,8 @@
-exports.index  = (cb)      -> ss.rpc('post.index', cb)
-exports.show   = (id, cb)  -> ss.rpc('post.show', id, cb)
-exports.create = (url, cb) -> ss.rpc('post.create', url, cb)
-exports.remove = (id, cb)  -> ss.rpc('post.remove', id, cb)
+exports.index   = (cb)      -> ss.rpc('post.index', cb)
+exports.show    = (id, cb)  -> ss.rpc('post.show', id, cb)
+exports.preview = (id, cb)  -> ss.rpc('post.preview', id, cb)
+exports.create  = (url, cb) -> ss.rpc('post.create', url, cb)
+exports.remove  = (id, cb)  -> ss.rpc('post.remove', id, cb)
 exports.line =
   translation :
     create : (post_id, line_id, text, cb) -> ss.rpc('post.line.translation.create', post_id, line_id, text, cb)
@@ -55,6 +56,15 @@ show = ->
 show()
 
 $(window).bind 'hashchange', show
+$('#preview').modal(show: false)
+$("#preview-btn").live "click", ->
+  exports.preview ss.post_id, (res) ->
+    [ success, message ] = res
+    if success
+      $("#preview .modal-body").html(message)
+      $('#preview').modal(show: true)
+    else
+      alert(message)
 
 $("#post form").live "submit", ->
   line_id = $(this).parents("tbody").attr("id")

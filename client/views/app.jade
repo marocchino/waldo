@@ -19,11 +19,15 @@ html(lang="en")
           .hero-unit
             h1 Waldo
             p simple markdown translation app
+          #preview.modal.hide.fade
+            .modal-body
+            .modal-footer
+              a.btn(href="#", data-dismiss="modal") Close
           table#post.table-condensed.table
             thead
               tr
                 th
-                th.form-inline.pull-right
+                th.pull-right.form-inline
                   label
                     | translate from
                     button.btn.btn-small.dropdown-toggle
@@ -35,6 +39,10 @@ html(lang="en")
                     button.btn.btn-small.dropdown-toggle
                       | korean
                       span.caret
+                  &nbsp;
+                  button.btn.btn-success.btn-small#preview-btn
+                    i.icon-eye-open.icon-white
+                    |  preview
         .span4
           form#newPost(onsubmit='return false')
             ul#posts.nav.nav-list.well

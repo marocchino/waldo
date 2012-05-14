@@ -7,6 +7,7 @@
   "private": true,
   "engines": { "node": ">= 0.6.0" },
   "dependencies": {
+    "markdown":      "x.x.x",
     "mongoose":      "x.x.x",
     "connect-redis": "x.x.x",
     "everyauth":     "x.x.x",
