@@ -9,13 +9,14 @@ exports.actions = (req, res, ss) ->
           line.translations.id(id).remove()
           post.save (err) ->
             if not err
-              res true
+              ss.publish.all('removeTranslation', id)
+              res [true]
             else
-              res false
+              res [false]
         else
-          res false
+          res [false]
       else
-        res false
+        res [false]
   create: (post_id,line_id, text) ->
     Post.findById post_id, (err, post) ->
       if not err and post?
@@ -27,7 +28,7 @@ exports.actions = (req, res, ss) ->
           line.translations.push translation
           post.save (err) ->
             if not err
-              ss.publish.all('newTranslation', line_id, translation)
+              ss.publish.all('newTranslation', line_id, line.translations[line.translations.length-1])
               res [true, null]
             else
               res [false, "cant create translation"]

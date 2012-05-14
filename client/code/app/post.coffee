@@ -6,6 +6,7 @@ exports.remove  = (id, cb)  -> ss.rpc('post.remove', id, cb)
 exports.line =
   translation :
     create : (post_id, line_id, text, cb) -> ss.rpc('post.line.translation.create', post_id, line_id, text, cb)
+    remove : (post_id, line_id, id, cb) -> ss.rpc('post.line.translation.remove', post_id, line_id, id, cb)
 
 ss.event.on 'newPost', (post) ->
   post.date = post.createdAt.slice(2,10)
@@ -49,7 +50,7 @@ show = ->
           line["i"] = i
           $('#post').append ss.tmpl['post-original'].render line
           for translation in line.translations
-            $("#post ##{line._id} .original").append ss.tmpl['post-translation'].render translation
+            $("#post ##{line._id} .original").after ss.tmpl['post-translation'].render translation
 
   else
     $("#post").hide()
@@ -77,6 +78,12 @@ $("#post form").live "submit", ->
       false
     else
       alert(message)
+
+$("#post .remove").live "click", ->
+  id = $(this).parents("p").attr("id")
+  line_id = $(this).parents("tbody").attr("id")
+  exports.line.translation.remove ss.post_id, line_id, id, (res) ->
+    [ success, message ] = res
 
 $("#posts .remove").live "click", ->
   id = $(this).parent().parent()[0].id

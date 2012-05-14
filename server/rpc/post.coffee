@@ -20,7 +20,12 @@ exports.actions = (req, res, ss) ->
     Post.findById id, (err, post) ->
       if not err
         md = require('markdown').markdown
-        preview = (line.original for line in post.lines).join "\n"
+        preview = (for line in post.lines
+          if line.translations.length > 0
+            line.translations[line.translations.length-1].text
+          else
+            line.original
+        ).join "\n"
         res [true, md.toHTML preview]
       else
         res [false, err]
